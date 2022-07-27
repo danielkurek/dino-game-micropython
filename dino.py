@@ -30,34 +30,47 @@ display = ssd1306.SSD1306_SPI(display_width, display_height, spi, dc=Pin(8), res
 dino_path = "/images/dino-cropped-20-22.pbm"
 cactus_path = "/images/cactus.pbm"
 
-dino = Image(dino_path)
-cactus = Image(cactus_path)
+dino_img = Image(dino_path)
+cactus_img = Image(cactus_path)
 
-player = MovingObject(10, display_height - dino.height, dino, display)
-obstacle = MovingObject(50, display_height - cactus.height, cactus, display)
+player = MovingObject(10, display_height - dino_img.height, dino_img, display)
+cactus = MovingObject(50, display_height - cactus_img.height, cactus_img, display)
 
 now = time.ticks_ms()
 player.physics_tick(now)
-player.set_pos(10, display_height - dino.height)
-obstacle.physics_tick(now)
-obstacle.set_pos(120, display_height - cactus.height)
+player.set_pos(10, display_height - dino_img.height)
+cactus.physics_tick(now)
+cactus.set_pos(120, display_height - cactus_img.height)
 
-objects = [player, obstacle]
+objects = [player, cactus]
+obstacles = [cactus]
 
-obstacle.set_motion_vector(-1.5,0)
+cactus.set_motion_vector(-1.5,0)
 
-while True:
-    display.fill(0)
-    now = time.ticks_ms()
-    if button_up.value() == 1 and player.on_ground():
-        player.set_motion_vector(0,-3.5)
-    if obstacle.x <= -cactus.width:
-        obstacle.set_pos(x=128)
-    for o in objects:
-        o.physics_tick(now)
-    for o in objects:
-        o.draw()
+def game_loop():
+    while True:
+        display.fill(0)
+        now = time.ticks_ms()
+        if button_up.value() == 1 and player.on_ground():
+            player.set_motion_vector(0,-3.5)
+        if cactus.x <= -cactus_img.width:
+            cactus.set_pos(x=128)
+        for o in objects:
+            o.physics_tick(now)
+        for o in objects:
+            o.draw()
+        display.show()
+        if player.collision_test(obstacles) != None:
+            break
+def start_text():
+    display.text("Press ACT", 0, 0, 1)
     display.show()
+start_text()
+while True:
+    
+    if button_action.value() == 1:
+        game_loop()
+        start_text()
     
 
 # collision_group = [obstacle]

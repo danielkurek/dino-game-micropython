@@ -8,7 +8,7 @@ from image_lib import read_image
 
 class Image():
     def __init__(self, path):
-        self.image, self.width, self.height = read_image(path)
+        self.bitmap, self.width, self.height = read_image(path)
 
 class Sprite():
     def __init__(self, x, y, image, display):
@@ -22,7 +22,7 @@ class Sprite():
     
     def draw(self):
         if self.image != None:
-            self.display.blit(self.image.image, int(self.x), int(self.y), framebuf.MONO_VLSB)
+            self.display.blit(self.image.bitmap, int(self.x), int(self.y), framebuf.MONO_VLSB)
     
     def set_pos(self, x = None, y = None):
         if x != None:
@@ -61,4 +61,14 @@ class MovingObject(Sprite):
 
     def on_ground(self):
         return self.y == self.ground - self.image.height
-        
+    
+    def collision_test(self, obstacles):
+        for obstacle in obstacles:
+            if (self.x + self.image.width >= obstacle.x and obstacle.x + obstacle.image.width >= self.x and
+                self.y + self.image.height >= obstacle.y and obstacle.y + obstacle.image.height >= self.y):
+                return obstacle
+        return None
+
+def stop_objects(objects):
+    for o in objects:
+        o.set_motion_vector(0,0)
