@@ -51,7 +51,7 @@
  - [ ] better collision detection - pixel based
  - [ ] aligned text - center, right, (left)
    - every char should be 8x8 pixels
- - [ ] invert colors - periodically (when score is divisible by 10)
+ - [x] invert colors - periodically (when score is divisible by 10)
  - [ ] sound engine??
  - [ ] animations - functions (for Sprite)
  - [ ] change coordinate rounding??
