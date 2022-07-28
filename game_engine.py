@@ -3,9 +3,6 @@ import time
 
 from image_lib import read_image
 
-# TODO: move coordinate origin to bottom left corner (0,64)
-# TODO: collision detection
-
 class Image():
     def __init__(self, path):
         self.bitmap, self.width, self.height = read_image(path)
@@ -15,7 +12,6 @@ class Sprite():
         self.set_pos(x, y)
         self.image = image
         self.display = display
-    
     
     def change_image(self, image):
         self.image = image
@@ -68,7 +64,3 @@ class MovingObject(Sprite):
                 self.y + self.image.height >= obstacle.y and obstacle.y + obstacle.image.height >= self.y):
                 return obstacle
         return None
-
-def stop_objects(objects):
-    for o in objects:
-        o.set_motion_vector(0,0)
