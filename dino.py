@@ -3,6 +3,7 @@ from machine import Pin, SPI
 import ssd1306
 import time
 from game_engine import *
+import random
 
 piezo = Pin(9, Pin.OUT)
 
@@ -48,13 +49,18 @@ obstacles = [cactus]
 cactus.set_motion_vector(-1.5,0)
 
 def game_loop():
+    now = time.ticks_ms()
+    player.physics_tick(now)
+    player.set_pos(10, display_height - dino_img.height)
+    cactus.physics_tick(now)
+    cactus.set_pos(120, display_height - cactus_img.height)
     while True:
         display.fill(0)
         now = time.ticks_ms()
         if button_up.value() == 1 and player.on_ground():
             player.set_motion_vector(0,-3.5)
-        if cactus.x <= -cactus_img.width:
-            cactus.set_pos(x=128)
+        if cactus.x <= -cactus_img.width :
+            cactus.set_pos(x=128 + random.randint(0, 128))
         for o in objects:
             o.physics_tick(now)
         for o in objects:
@@ -62,12 +68,14 @@ def game_loop():
         display.show()
         if player.collision_test(obstacles) != None:
             break
+
 def start_text():
     display.text("Press ACT", 0, 0, 1)
     display.show()
+
 start_text()
+
 while True:
-    
     if button_action.value() == 1:
         game_loop()
         start_text()
