@@ -67,6 +67,8 @@ def game_loop():
 
     score = 0
 
+    inverted = False
+
     while True:
         display.fill(0)
         now = time.ticks_ms()
@@ -75,6 +77,11 @@ def game_loop():
         if cactus.x <= -cactus_img.width :
             cactus.set_pos(x=128 + random.randint(0, 128))
             score += 1 # original game counts score as a distance travelled
+
+            if score % 10 == 0:
+                inverted = not inverted
+                display.invert(inverted)
+            
         for o in objects:
             o.physics_tick(now)
         for o in objects:
@@ -105,6 +112,7 @@ start_text()
 
 while True:
     if button_action.value() == 1:
+        display.invert(False)
         game_loop()
         if score != None and score > best_score:
             # add animation or other indication of new best score
