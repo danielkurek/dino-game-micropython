@@ -1,5 +1,7 @@
 # Dinosaur hra pro Pi Pico
 
+[návod](navod.md)
+
 - soubory:
   - `images/` - obrázky - hra využívá pouze `dino-cropped-20-22.pbm` a `cactus.pbm`
   - `dino.py` - samotná hra
@@ -7,6 +9,9 @@
   - `image_lib.py` - načítání `.pbm` obrázků
   - `ssd1306.py` - knihovna na ovládání displeje
 
+
+# Jak spustit?
+Pomocí `Thonny` je potřeba nahrát knihovny: `game_engine.py`, `image_lib.py`, `ssd1306.py`; a obrázky `images/dino-cropped-20-22.pbm` a `images/cactus.pbm`. Poté jsou dvě možnosti, buď lze v editoru `Thonny` spustit hlavní soubor `dino.py` na Raspberry Pi Pico, což je dobré pro testování, nebo lze přejmenovat soubor `dino.py` na `main.py` a nahrát ho do Pica, hra se automaticky zapne při zapnutí Pica.
 
 # Herní engine (game_engine.py)
  - rozděleno do 3 tříd
