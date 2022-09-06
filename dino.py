@@ -98,7 +98,7 @@ try:
             best_score = int(f.readline())
         except ValueError:
             print("cannot read best score")
-except OSError:
+except OSError: # find better exception
     print("file not found")
     
 
